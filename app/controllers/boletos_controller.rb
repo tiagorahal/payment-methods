@@ -1,6 +1,4 @@
 class BoletosController < ApplicationController
-  before_action :set_boleto, only: [:show, :edit, :update, :destroy]
-
   def index
     kobana_service = KobanaService.new
     @boletos = kobana_service.list_boletos
@@ -45,17 +43,18 @@ class BoletosController < ApplicationController
         format.html { redirect_to boletos_url, notice: 'Boleto was successfully cancelled.' }
         format.json { head :no_content }
       else
-        format.html { redirect_to @boleto, alert: 'Failed to cancel boleto.' }
+        format.html { redirect_to boletos_url, alert: 'Failed to cancel boleto.' }
         format.json { render json: response, status: :unprocessable_entity }
       end
     end
   end
 
-  private
-
-  def set_boleto
-    @boleto = Boleto.find(params[:id])
+  def edit
+    kobana_service = KobanaService.new
+    @boleto_hash = kobana_service.get_boleto(params[:id])
   end
+
+  private
 
   def boleto_params
     params.require(:boleto).permit(:amount, :expire_at, :customer_person_name, :customer_cnpj_cpf, :customer_state, :customer_city_name, :customer_zipcode, :customer_address, :customer_neighborhood)
