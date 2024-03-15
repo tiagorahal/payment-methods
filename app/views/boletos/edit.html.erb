@@ -4,93 +4,60 @@
       <h2 class="text-lg font-semibold text-gray-800">Edit Boleto</h2>
     </div>
     <div class="border-t border-gray-200">
-      <%= form_tag(boleto_path(@boleto['id']), method: "put", id: "edit_boleto_form") do %>
+      <%= form_for :boleto, url: boleto_path(@boleto['id']), method: :put, id: "edit_boleto_form" do |f| %>
         <div class="p-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
-            <%= label_tag :amount, "Amount", class: "block font-medium text-sm text-gray-700" %>
-            <%= number_field_tag :amount, @boleto['amount'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+            <%= f.label :amount, "Amount", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.number_field :amount, value: @boleto['amount'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
           </div>
 
           <div>
-            <%= label_tag :expire_at, "Expire At", class: "block font-medium text-sm text-gray-700" %>
-            <%= date_field_tag :expire_at, @boleto['expire_at'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+            <%= f.label :expire_at, "Expire At", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.date_field :expire_at, value: @boleto['expire_at'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
           </div>
 
           <div class="sm:col-span-2">
-            <%= label_tag :tags, "Tags", class: "block font-medium text-sm text-gray-700" %>
-            <%= text_field_tag :tags, @boleto['tags'].join(', '), class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+            <%= f.label :tags, "Tags", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_field :tags, value: @boleto['tags'].join(', '), class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </div>
 
           <div class="sm:col-span-2">
-            <%= label_tag :notes, "Notes", class: "block font-medium text-sm text-gray-700" %>
-            <%= text_area_tag :notes, @boleto['notes'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+            <%= f.label :notes, "Notes", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_area :notes, value: @boleto['notes'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </div>
 
           <div>
-            <%= label_tag :days_for_sue, "Days for Sue", class: "block font-medium text-sm text-gray-700" %>
-            <%= number_field_tag :days_for_sue, @boleto['days_for_sue'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+            <%= f.label :days_for_sue, "Days for Sue", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.number_field :days_for_sue, value: @boleto['days_for_sue'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </div>
 
           <div>
-            <%= label_tag :sue_code, "Sue Code", class: "block font-medium text-sm text-gray-700" %>
-            <%= text_field_tag :sue_code, @boleto['sue_code'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+            <%= f.label :sue_code, "Sue Code", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_field :sue_code, value: @boleto['sue_code'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </div>
 
           <div class="sm:col-span-2">
-            <%= label_tag :instructions, "Instructions", class: "block font-medium text-sm text-gray-700" %>
-            <%= text_area_tag :instructions, @boleto['instructions'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+            <%= f.label :instructions, "Instructions", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_area :instructions, value: @boleto['instructions'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </div>
 
           <div class="sm:col-span-2">
-            <%= label_tag :description, "Description", class: "block font-medium text-sm text-gray-700" %>
-            <%= text_area_tag :description, @boleto['description'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+            <%= f.label :description, "Description", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_area :description, value: @boleto['description'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </div>
 
           <div>
-            <%= label_tag :reduction_amount, "Reduction Amount", class: "block font-medium text-sm text-gray-700" %>
-            <%= number_field_tag :reduction_amount, @boleto['reduction_amount'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+            <%= f.label :reduction_amount, "Reduction Amount", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.number_field :reduction_amount, value: @boleto['reduction_amount'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </div>
 
-         <div class="px-4 py-3 sm:px-6 text-right">
-          <%= submit_tag "Update Boleto", 
-                         class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white disabled:bg-gray-400 disabled:cursor-not-allowed bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500", 
-                         id: "submit_button", 
-                         disabled: true %>
+          <div class="px-4 py-3 sm:px-6 text-right">
+            <%= f.submit "Update Boleto", class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white disabled:bg-gray-400 disabled:cursor-not-allowed bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500", id: "submit_button" %>
+          </div>
         </div>
       <% end %>
     </div>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('edit_boleto_form');
-      const submitButton = document.getElementById('submit_button');
-      const originalFormData = new FormData(form);
-
-      function checkFormChanges() {
-        const currentFormData = new FormData(form);
-        let isChanged = false;
-        for (let [key, value] of originalFormData.entries()) {
-          if (value !== currentFormData.get(key)) {
-            isChanged = true;
-            break;
-          }
-        }
-        submitButton.disabled = !isChanged;
-
-        if (isChanged) {
-          submitButton.classList.remove('disabled:bg-gray-400', 'bg-gray-400');
-          submitButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
-        } else {
-          submitButton.classList.add('disabled:bg-gray-400', 'bg-gray-400');
-          submitButton.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-        }
-      }
-
-      form.addEventListener('change', checkFormChanges);
-    });
-  </script>
-
 <% else %>
   <p>Boleto not found.</p>
 <% end %>

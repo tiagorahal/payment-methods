@@ -24,20 +24,26 @@ class KobanaService
     JSON.parse(response.body)
   end
 
-  def update_boleto(id, params)
-    uri = URI("#{BASE_URL}/#{id}")
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
+  def update_boleto(id, boleto_params)
+    Rails.logger.debug "KobanaService.update_boleto invoked with ID: #{id} and params: #{boleto_params}"
 
-    request = Net::HTTP::Put.new(uri)
-    request["Authorization"] = "Bearer #{@token}"
-    request["Content-Type"] = 'application/json'
-    request["Accept"] = 'application/json'
-    request.body = params.to_json
+    url = "#{@base_url}/#{id}"
+    headers = {
+      'Authorization': "Bearer #{@token}",
+      'Content-Type': 'application/json'
+    }
+    response = HTTParty.put(url, body: boleto_params.to_json, headers: headers)
 
-    response = http.request(request)
-    JSON.parse(response.body)
+    Rails.logger.debug "Sending HTTP PUT request to #{url} with body: #{boleto_params}"
+    Rails.logger.debug "Received response: #{response.body}"
+
+    response.parsed_response
+  rescue StandardError => e
+    Rails.logger.error "Error occurred in KobanaService.update_boleto: #{e.message}"
+    { 'status' => 'error', 'message' => e.message }
   end
+  
+  
 
   def cancel_boleto(id)
     uri = URI("#{BASE_URL}/#{id}/cancel")
