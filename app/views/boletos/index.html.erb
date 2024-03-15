@@ -29,8 +29,8 @@
                 <td class="px-6 py-4 whitespace-nowrap"><%= boleto['expire_at'] %></td>
                 <td class="px-6 py-4 whitespace-nowrap"><%= boleto['paid_at'] || 'N/A' %></td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded' %>
-                </td> <!-- Add this cell for the Edit button -->
+                  <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded', data: { turbo_frame: 'boleto-edit', remote: true } %>
+                </td>
               </tr>
             <% end %>
           </tbody>

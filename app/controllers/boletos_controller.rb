@@ -22,7 +22,7 @@ class BoletosController < ApplicationController
   def update
     kobana_service = KobanaService.new
     response = kobana_service.update_boleto(params[:id], boleto_params)
-
+  
     respond_to do |format|
       if response['status'] == 'success'
         format.html { redirect_to boletos_url, notice: 'Boleto was successfully updated.' }
@@ -51,8 +51,15 @@ class BoletosController < ApplicationController
 
   def edit
     kobana_service = KobanaService.new
-    @boleto_hash = kobana_service.get_boleto(params[:id])
+    @boleto = kobana_service.get_boleto(params[:id])
+  
+    if @boleto.blank?
+      flash[:alert] = "Boleto not found"
+      redirect_to boletos_path
+    end
   end
+  
+  
 
   private
 

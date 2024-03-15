@@ -71,11 +71,12 @@ class KobanaService
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
   
-    request = Net::HTTP::Get.new(uri)
+    request = Net::HTTP::Get.new(uri) # Ensure it's a GET request
     request["Authorization"] = "Bearer #{@token}"
     request["Accept"] = 'application/json'
   
     response = http.request(request)
     JSON.parse(response.body)
   end
+  
 end
