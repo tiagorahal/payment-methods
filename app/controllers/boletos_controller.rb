@@ -7,13 +7,13 @@ class BoletosController < ApplicationController
   def create
     kobana_service = KobanaService.new
     response = kobana_service.create_boleto(boleto_params)
-
+  
     respond_to do |format|
       if response['status'] == 'success'
-        format.html { redirect_to boletos_url, notice: 'Boleto was successfully created.' }
+        format.html { redirect_to boletos_url, notice: 'Boleto was successfully created.' } # Redirect to root path
         format.json { render :show, status: :created, location: @boleto }
       else
-        format.html { render :new }
+        format.html { redirect_to boletos_url, alert: response['message'] || 'An error occurred while creating the boleto.' }
         format.json { render json: response, status: :unprocessable_entity }
       end
     end
