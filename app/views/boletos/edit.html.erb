@@ -8,9 +8,9 @@
         <div class="p-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
             <%= f.label :amount, "Amount", class: "block font-medium text-sm text-gray-700" %>
-            <%= f.number_field :amount, value: @boleto['amount'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+            <%= f.number_field :amount, value: sprintf('%.2f', @boleto['amount']), step: '0.01', class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
           </div>
-
+          
           <div>
             <%= f.label :expire_at, "Expire At", class: "block font-medium text-sm text-gray-700" %>
             <%= f.date_field :expire_at, value: @boleto['expire_at'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
