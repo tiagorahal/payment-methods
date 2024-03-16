@@ -33,13 +33,14 @@
                   <td class="px-6 py-4 whitespace-nowrap"><%= boleto['expire_at'] %></td>
                   <td class="px-6 py-4 whitespace-nowrap"><%= boleto['paid_at'] || 'N/A' %></td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded', data: { turbo_frame: 'boleto-edit', remote: true } %>
                     <% if boleto['status'].downcase != 'canceled' %>
+                      <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded', data: { turbo_frame: 'boleto-edit', remote: true } %>
                       <button data-boleto-id="<%= boleto['id'] %>" class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
                         Delete
                       </button>
                     <% else %>
-                      <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded ml-2" disabled>
+                      <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded pointer-events-none opacity-50 cursor-not-allowed', data: { turbo_frame: 'boleto-edit', remote: true } %>
+                      <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2 pointer-events-none opacity-50 cursor-not-allowed" disabled>
                         Delete
                       </button>
                     <% end %>
