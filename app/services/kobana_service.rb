@@ -49,7 +49,6 @@ class KobanaService
     JSON.parse(response.body)
   rescue JSON::ParserError => e
     Rails.logger.error("Failed to parse JSON: #{e.message}")
-    # Handle the error appropriately
   end
   
   

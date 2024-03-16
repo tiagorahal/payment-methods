@@ -23,18 +23,12 @@ class BoletosController < ApplicationController
     kobana_service = KobanaService.new
     user_agent = "your_email@example.com"  # Replace with a valid email address
     idempotency_key = SecureRandom.uuid  # Generate a unique key for idempotency
-  
-    # Convert 'tags' string to an array of strings
     params[:boleto][:tags] = params[:boleto][:tags].split(',').map(&:strip) if params[:boleto][:tags].is_a?(String)
-  
-    # Ensure 'days_for_sue' is converted to integer if it's a string
+
     params[:boleto][:days_for_sue] = params[:boleto][:days_for_sue].to_i if params[:boleto][:days_for_sue].is_a?(String)
   
-    Rails.logger.info "Boleto ID: #{params[:id]}, User-Agent: #{user_agent}, X-Idempotency-Key: #{idempotency_key}"
-    Rails.logger.info "Boleto Params: #{boleto_params.inspect}"
-  
     response = kobana_service.update_boleto(params[:id], boleto_params.to_h, user_agent, idempotency_key)
-  
+
     respond_to do |format|
       if response['status'] == 'success'
         format.html { redirect_to boletos_url, notice: 'Boleto was successfully updated.' }
@@ -51,10 +45,6 @@ class BoletosController < ApplicationController
     Rails.logger.error "Error: #{e.message}"
     redirect_to boletos_url, alert: 'An unexpected error occurred.'
   end
-  
-  
-  
-  
 
   def destroy
     kobana_service = KobanaService.new
