@@ -20,24 +20,40 @@ class BoletosController < ApplicationController
   end
 
   def update
-    Rails.logger.debug "Started PUT \"/boletos/#{params[:id]}\" for ::1 at #{Time.now} -0300"
-    Rails.logger.debug "Processing by BoletosController#update as TURBO_STREAM"
-    Rails.logger.debug "Parameters: #{params.inspect}"
-
-    Rails.logger.debug "Starting update in BoletosController with ID: #{params[:id]}"
     kobana_service = KobanaService.new
-    Rails.logger.debug "Calling KobanaService.update_boleto with params: #{boleto_params}"
-    
-    response = kobana_service.update_boleto(params[:id], boleto_params)
-    
-    Rails.logger.debug "Response from KobanaService.update_boleto: #{response}"
-    
-    if response['status'] == 'success'
-      redirect_to boletos_url, notice: 'Boleto was successfully updated.'
-    else
-      redirect_to boletos_url, alert: response['message'] || 'An error occurred while updating the boleto.'
+    user_agent = "your_email@example.com"  # Replace with a valid email address
+    idempotency_key = SecureRandom.uuid  # Generate a unique key for idempotency
+  
+    # Convert 'tags' string to an array of strings
+    params[:boleto][:tags] = params[:boleto][:tags].split(',').map(&:strip) if params[:boleto][:tags].is_a?(String)
+  
+    # Ensure 'days_for_sue' is converted to integer if it's a string
+    params[:boleto][:days_for_sue] = params[:boleto][:days_for_sue].to_i if params[:boleto][:days_for_sue].is_a?(String)
+  
+    Rails.logger.info "Boleto ID: #{params[:id]}, User-Agent: #{user_agent}, X-Idempotency-Key: #{idempotency_key}"
+    Rails.logger.info "Boleto Params: #{boleto_params.inspect}"
+  
+    response = kobana_service.update_boleto(params[:id], boleto_params.to_h, user_agent, idempotency_key)
+  
+    respond_to do |format|
+      if response['status'] == 'success'
+        format.html { redirect_to boletos_url, notice: 'Boleto was successfully updated.' }
+        format.json { render :show, status: :ok, location: @boleto }
+      else
+        format.html { redirect_to boletos_url, alert: response['message'] || 'An error occurred while updating the boleto.' }
+        format.json { render json: response, status: :unprocessable_entity }
+      end
     end
+  rescue JSON::ParserError => e
+    Rails.logger.error "JSON::ParserError: #{e.message}"
+    redirect_to boletos_url, alert: 'An error occurred while processing the response.'
+  rescue StandardError => e
+    Rails.logger.error "Error: #{e.message}"
+    redirect_to boletos_url, alert: 'An unexpected error occurred.'
   end
+  
+  
+  
   
 
   def destroy
@@ -68,8 +84,7 @@ class BoletosController < ApplicationController
   private
 
   def boleto_params
-    params.require(:boleto).permit(:amount, :expire_at, :tags, :notes, :days_for_sue, :sue_code, :instructions, :description, :reduction_amount)
+    params.require(:boleto).permit(:amount, :expire_at, :notes, :days_for_sue, :sue_code, :instructions, :description, :reduction_amount, tags: [])
   end
-  
-  
+   
 end
