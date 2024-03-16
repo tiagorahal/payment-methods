@@ -21,6 +21,7 @@ class KobanaService
     request.body = params.to_json
 
     response = http.request(request)
+    Rails.logger.info("Boleto creation response: #{response.body}")
     JSON.parse(response.body)
   end
 
@@ -49,10 +50,7 @@ class KobanaService
     Rails.logger.error("Failed to parse JSON: #{e.message}")
   end
   
-  
-  
-
-  def cancel_boleto(id)
+  def cancel_boleto(id, cancellation_reason)
     uri = URI("#{BASE_URL}/#{id}/cancel")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -61,9 +59,13 @@ class KobanaService
     request["Authorization"] = "Bearer #{@token}"
     request["Content-Type"] = 'application/json'
     request["Accept"] = 'application/json'
+    request.body = { cancellation_reason: cancellation_reason }.to_json
 
     response = http.request(request)
     JSON.parse(response.body)
+    rescue JSON::ParserError, TypeError => e
+    Rails.logger.error "Error processing the request: #{e.message}"
+    { 'status' => 'error', 'message' => e.message }
   end
 
   def list_boletos

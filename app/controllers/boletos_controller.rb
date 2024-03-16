@@ -8,6 +8,8 @@ class BoletosController < ApplicationController
     kobana_service = KobanaService.new
     response = kobana_service.create_boleto(boleto_params)
   
+    @boleto = response # Assuming response contains boleto data
+  
     respond_to do |format|
       if response['status'] == 'success'
         format.html { redirect_to boletos_url, notice: 'Boleto was successfully created.' } # Redirect to root path
@@ -46,16 +48,35 @@ class BoletosController < ApplicationController
     redirect_to boletos_url, alert: 'An unexpected error occurred.'
   end
 
-  def destroy
+  # def destroy
+  #   kobana_service = KobanaService.new
+  #   cancellation_reason = params[:cancellation_reason]
+  #   response = kobana_service.cancel_boleto(params[:id], cancellation_reason)
+  
+  #   respond_to do |format|
+  #     if response['status'] == 'success'
+  #       format.html { redirect_to boletos_url, notice: 'Boleto was successfully cancelled.' }
+  #       format.json { head :no_content }
+  #     else
+  #       format.html { redirect_to boletos_url, alert: 'Failed to cancel boleto.' }
+  #       format.json { render json: response, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end  
+
+  def cancel
     kobana_service = KobanaService.new
-    response = kobana_service.cancel_boleto(params[:id])
+    cancellation_reason = params[:cancellation_reason]
+    boleto_id = params[:id]
+
+    response = kobana_service.cancel_boleto(boleto_id, cancellation_reason)
 
     respond_to do |format|
       if response['status'] == 'success'
-        format.html { redirect_to root_url, notice: 'Boleto was successfully cancelled.' }
+        format.html { redirect_to boletos_url, notice: 'Boleto was successfully cancelled.' }
         format.json { head :no_content }
       else
-        format.html { redirect_to root_url, alert: 'Failed to cancel boleto.' }
+        format.html { redirect_to boletos_url, alert: response['message'] || 'Failed to cancel boleto.' }
         format.json { render json: response, status: :unprocessable_entity }
       end
     end
@@ -67,7 +88,7 @@ class BoletosController < ApplicationController
   
     if @boleto.blank?
       flash[:alert] = "Boleto not found"
-      redirect_to root_url
+      redirect_to boletos_url
     end
   end
 
@@ -76,10 +97,12 @@ class BoletosController < ApplicationController
   def boleto_params
     params.require(:boleto).permit(
       :amount, :expire_at, :customer_person_name, :customer_cnpj_cpf,
-      :customer_state, :customer_city_name, :customer_zipcode,
-      :customer_address, :customer_neighborhood, :notes, :days_for_sue,
-      :sue_code, :instructions, :description, :reduction_amount, tags: []
-    )
+      :customer_state, :customer_city_name, :customer_neighborhood,
+      :customer_address, :notes, :days_for_sue, :sue_code, :instructions,
+      :description, :reduction_amount, tags: []
+    ).tap do |sanitized_params|
+      sanitized_params[:customer_zipcode] = sanitized_params[:customer_zipcode].gsub(/[^0-9]/, '') if sanitized_params[:customer_zipcode]
+    end
   end
    
 end
