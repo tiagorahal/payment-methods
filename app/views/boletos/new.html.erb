@@ -1,58 +1,68 @@
-<!-- app/views/boletos/new.html.erb -->
-<div class="max-w-md mx-auto bg-white shadow-md overflow-hidden sm:rounded-lg">
-  <div class="px-4 py-5 sm:px-6">
-    <h2 class="text-lg font-semibold text-gray-800">Create Boleto</h2>
+<%= form_for :boleto, url: boletos_path, method: :post, id: "new_boleto_form" do |f| %>
+  <div class="max-w-md mx-auto bg-white shadow-md overflow-hidden sm:rounded-lg lg:max-w-4xl mb-8">
+    <div class="px-4 py-5 sm:px-6">
+      <h2 class="text-lg font-semibold text-gray-800">New Boleto</h2>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="p-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- Amount -->
+        <div>
+          <%= f.label :amount, "Amount", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.number_field :amount, step: '0.01', class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <!-- Expire At -->
+        <div>
+          <%= f.label :expire_at, "Expire At", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.date_field :expire_at, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <!-- Customer Person Name -->
+        <div class="sm:col-span-2">
+          <%= f.label :customer_person_name, "Customer Person Name", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.text_field :customer_person_name, maxlength: 120, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <!-- Customer CNPJ/CPF -->
+        <div class="sm:col-span-2">
+          <%= f.label :customer_cnpj_cpf, "Customer CNPJ/CPF", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.text_field :customer_cnpj_cpf, maxlength: 20, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <!-- Customer State -->
+        <div>
+          <%= f.label :customer_state, "Customer State", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.text_field :customer_state, maxlength: 2, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <!-- Customer City Name -->
+        <div>
+          <%= f.label :customer_city_name, "Customer City Name", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.text_field :customer_city_name, maxlength: 60, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <!-- Customer Zipcode -->
+        <div class="sm:col-span-2">
+          <%= f.label :customer_zipcode, "Customer Zipcode", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.text_field :customer_zipcode, maxlength: 8, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <!-- Customer Address -->
+        <div class="sm:col-span-2">
+          <%= f.label :customer_address, "Customer Address", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.text_field :customer_address, maxlength: 255, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <!-- Customer Neighborhood -->
+        <div class="sm:col-span-2">
+          <%= f.label :customer_neighborhood, "Customer Neighborhood", class: "block font-medium text-sm text-gray-700" %>
+          <%= f.text_field :customer_neighborhood, maxlength: 80, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+        </div>
+
+        <div class="px-4 py-3 sm:px-6 text-right">
+          <%= f.submit "Create Boleto", class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white disabled:bg-gray-400 disabled:cursor-not-allowed bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500", id: "submit_button" %>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="border-t border-gray-200">
-    <%= form_with(model: @boleto, url: boletos_path, method: "post", local: true) do |form| %>
-      <div class="p-6">
-        <%= form.label :amount, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.number_field :amount, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="p-6">
-        <%= form.label :expire_at, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.date_field :expire_at, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="p-6">
-        <%= form.label :customer_person_name, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.text_field :customer_person_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="p-6">
-        <%= form.label :customer_cnpj_cpf, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.text_field :customer_cnpj_cpf, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="p-6">
-        <%= form.label :customer_state, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.text_field :customer_state, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="p-6">
-        <%= form.label :customer_city_name, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.text_field :customer_city_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="p-6">
-        <%= form.label :customer_zipcode, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.text_field :customer_zipcode, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="p-6">
-        <%= form.label :customer_address, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.text_field :customer_address, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="p-6">
-        <%= form.label :customer_neighborhood, class: "block font-medium text-sm text-gray-700" %>
-        <%= form.text_field :customer_neighborhood, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
-      </div>
-
-      <div class="px-4 py-3 sm:px-6 text-right">
-        <%= form.submit "Create Boleto", class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<% end %>

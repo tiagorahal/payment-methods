@@ -74,7 +74,12 @@ class BoletosController < ApplicationController
   private
 
   def boleto_params
-    params.require(:boleto).permit(:amount, :expire_at, :notes, :days_for_sue, :sue_code, :instructions, :description, :reduction_amount, tags: [])
+    params.require(:boleto).permit(
+      :amount, :expire_at, :customer_person_name, :customer_cnpj_cpf,
+      :customer_state, :customer_city_name, :customer_zipcode,
+      :customer_address, :customer_neighborhood, :notes, :days_for_sue,
+      :sue_code, :instructions, :description, :reduction_amount, tags: []
+    )
   end
    
 end

@@ -25,8 +25,6 @@ class KobanaService
   end
 
   def update_boleto(id, params, user_agent, idempotency_key)
-    puts "ID: #{id.inspect}, Params: #{params.inspect}, User-Agent: #{user_agent.inspect}, X-Idempotency-Key: #{idempotency_key.inspect}"
-    
     uri = URI("#{BASE_URL}/#{id}")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
