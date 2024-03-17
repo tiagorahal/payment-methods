@@ -1,0 +1,65 @@
+<% if @boleto %>
+  <div class="max-w-md mx-auto bg-white shadow-md overflow-hidden sm:rounded-lg lg:max-w-4xl mb-8">
+    <div class="px-4 py-5 sm:px-6">
+      <h2 class="text-lg font-semibold text-gray-800">Edit Boleto</h2>
+    </div>
+    <div class="border-t border-gray-200">
+      <%= form_for :boleto, url: boleto_path(@boleto['id']), method: :put, id: "edit_boleto_form" do |f| %>
+        <div class="p-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <%= f.label :amount, "Amount", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.number_field :amount, value: sprintf('%.2f', @boleto['amount']), step: '0.01', class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+          </div>
+          
+          <div>
+            <%= f.label :expire_at, "Expire At", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.date_field :expire_at, value: @boleto['expire_at'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+          </div>
+
+          <div class="sm:col-span-2">
+            <%= f.label :tags, "Tags", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_field :tags, value: @boleto['tags'].join(', '), class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div class="sm:col-span-2">
+            <%= f.label :notes, "Notes", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_area :notes, value: @boleto['notes'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div>
+            <%= f.label :days_for_sue, "Days for Sue", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.number_field :days_for_sue, value: @boleto['days_for_sue'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div>
+            <%= f.label :sue_code, "Sue Code", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_field :sue_code, value: @boleto['sue_code'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div class="sm:col-span-2">
+            <%= f.label :instructions, "Instructions", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_area :instructions, value: @boleto['instructions'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div class="sm:col-span-2">
+            <%= f.label :description, "Description", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.text_area :description, value: @boleto['description'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div>
+            <%= f.label :reduction_amount, "Reduction Amount", class: "block font-medium text-sm text-gray-700" %>
+            <%= f.number_field :reduction_amount, value: @boleto['reduction_amount'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <!-- Buttons aligned to the left -->
+          <div class="sm:col-span-2 text-left">
+            <%= f.submit "Update Boleto", class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+            <%= link_to 'Go Back', root_path, class: 'inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <p>Boleto not found.</p>
+<% end %>
