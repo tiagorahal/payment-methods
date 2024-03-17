@@ -1,0 +1,11 @@
+AllCops:
+  TargetRubyVersion: 2.7 # Adjust this based on your Ruby version
+  NewCops: enable
+  Exclude:
+    - 'db/schema.rb'
+    - 'bin/*'
+    - 'node_modules/**/*'
+
+Metrics/BlockLength:
+  Max: 50
+  ExcludedMethods: ['describe', 'context']

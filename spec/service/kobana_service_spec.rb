@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'webmock/rspec'
 
 RSpec.describe KobanaService do
   describe '#list_boletos' do
-    let(:base_url) { "https://api-sandbox.kobana.com.br/v1/bank_billets" }
-    let(:token) { "yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY" }
+    let(:base_url) { 'https://api-sandbox.kobana.com.br/v1/bank_billets' }
+    let(:token) { 'yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY' }
     let(:stubbed_response) { [{ 'id' => 1, 'status' => 'active' }] }
 
     before do
@@ -29,9 +31,9 @@ RSpec.describe KobanaService do
   end
 
   describe '#get_boleto' do
-    let(:base_url) { "https://api-sandbox.kobana.com.br/v1/bank_billets" }
-    let(:boleto_id) { 635399 }
-    let(:token) { "yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY" }
+    let(:base_url) { 'https://api-sandbox.kobana.com.br/v1/bank_billets' }
+    let(:boleto_id) { 635_399 }
+    let(:token) { 'yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY' }
     let(:stubbed_response) { { 'id' => boleto_id, 'amount' => 500.00, 'status' => 'active' } }
 
     before do
@@ -55,28 +57,28 @@ RSpec.describe KobanaService do
       expect(boleto['id']).to eq(boleto_id)
       expect(boleto['amount']).to eq(500.00)
       expect(boleto['status']).to eq('active')
-    end             
+    end
   end
 
   describe '#update_boleto' do
-    let(:base_url) { "https://api-sandbox.kobana.com.br/v1/bank_billets" }
-    let(:boleto_id) { 635399 }
-    let(:token) { "yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY" }
-    let(:user_agent) { "your_email@example.com" }
+    let(:base_url) { 'https://api-sandbox.kobana.com.br/v1/bank_billets' }
+    let(:boleto_id) { 635_399 }
+    let(:token) { 'yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY' }
+    let(:user_agent) { 'your_email@example.com' }
     let(:idempotency_key) { SecureRandom.uuid }
-    let(:boleto_params) { 
-      { 
-        amount: 500.00, 
-        expire_at: "2023-10-05", 
-        tags: ["urgent", "important"], 
-        notes: "Note about boleto", 
-        days_for_sue: 5, 
-        sue_code: "SUE123", 
-        instructions: "Some instructions", 
-        description: "Description of boleto", 
-        reduction_amount: 50.00 
-      } 
-    }
+    let(:boleto_params) do
+      {
+        amount: 500.00,
+        expire_at: '2023-10-05',
+        tags: %w[urgent important],
+        notes: 'Note about boleto',
+        days_for_sue: 5,
+        sue_code: 'SUE123',
+        instructions: 'Some instructions',
+        description: 'Description of boleto',
+        reduction_amount: 50.00
+      }
+    end
     let(:stubbed_response) { { 'id' => boleto_id, 'status' => 'updated' } }
 
     before do
@@ -105,35 +107,35 @@ RSpec.describe KobanaService do
   end
 
   describe '#create_boleto' do
-    let(:base_url) { "https://api-sandbox.kobana.com.br/v1/bank_billets" }
-    let(:token) { "yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY" }
+    let(:base_url) { 'https://api-sandbox.kobana.com.br/v1/bank_billets' }
+    let(:token) { 'yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY' }
     let(:boleto_params) do
       {
-        "interest_type" => 0,
-        "interest_days_type" => 0,
-        "fine_type" => 0,
-        "discount_type" => 0,
-        "charge_type" => 1,
-        "dispatch_type" => 1,
-        "document_type" => "02",
-        "acceptance" => "N",
-        "ignore_email" => false,
-        "ignore_sms" => false,
-        "ignore_whatsapp" => false,
-        "prevent_pix" => false,
-        "instructions_mode" => 1,
-        "amount" => 200,
-        "expire_at" => "2025-05-27",
-        "customer_person_name" => "Joao Castor",
-        "customer_cnpj_cpf" => "03922795170",
-        "customer_state" => "RS",
-        "customer_city_name" => "Travbesseiro",
-        "customer_zipcode" => "87020035",
-        "customer_address" => "rua alguma coisa",
-        "customer_neighborhood" => "bairro tatu"
+        'interest_type' => 0,
+        'interest_days_type' => 0,
+        'fine_type' => 0,
+        'discount_type' => 0,
+        'charge_type' => 1,
+        'dispatch_type' => 1,
+        'document_type' => '02',
+        'acceptance' => 'N',
+        'ignore_email' => false,
+        'ignore_sms' => false,
+        'ignore_whatsapp' => false,
+        'prevent_pix' => false,
+        'instructions_mode' => 1,
+        'amount' => 200,
+        'expire_at' => '2025-05-27',
+        'customer_person_name' => 'Joao Castor',
+        'customer_cnpj_cpf' => '03922795170',
+        'customer_state' => 'RS',
+        'customer_city_name' => 'Travbesseiro',
+        'customer_zipcode' => '87020035',
+        'customer_address' => 'rua alguma coisa',
+        'customer_neighborhood' => 'bairro tatu'
       }
     end
-    let(:stubbed_response) { { 'id' => 123456, 'status' => 'created' } }
+    let(:stubbed_response) { { 'id' => 123_456, 'status' => 'created' } }
 
     before do
       stub_request(:post, base_url)
@@ -153,15 +155,15 @@ RSpec.describe KobanaService do
       response = service.create_boleto(boleto_params)
 
       expect(response).to be_a(Hash)
-      expect(response['id']).to eq(123456)
+      expect(response['id']).to eq(123_456)
       expect(response['status']).to eq('created')
     end
   end
 
   describe '#cancel_boleto' do
-    let(:base_url) { "https://api-sandbox.kobana.com.br/v1/bank_billets" }
-    let(:token) { "yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY" }
-    let(:boleto_id) { 635399 }
+    let(:base_url) { 'https://api-sandbox.kobana.com.br/v1/bank_billets' }
+    let(:token) { 'yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY' }
+    let(:boleto_id) { 635_399 }
     let(:cancellation_reason) { 3 }
     let(:stubbed_response) { { 'id' => boleto_id, 'status' => 'cancelled' } }
 
