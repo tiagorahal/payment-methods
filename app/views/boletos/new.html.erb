@@ -32,15 +32,7 @@
         <!-- Customer State -->
         <div>
           <%= f.label :customer_state, "Customer State", class: "block font-medium text-sm text-gray-700" %>
-          <%= f.select :customer_state, options_for_select([
-            ['AC', 'AC'], ['AL', 'AL'], ['AP', 'AP'], ['AM', 'AM'],
-            ['BA', 'BA'], ['CE', 'CE'], ['DF', 'DF'], ['ES', 'ES'],
-            ['GO', 'GO'], ['MA', 'MA'], ['MT', 'MT'], ['MS', 'MS'],
-            ['MG', 'MG'], ['PA', 'PA'], ['PB', 'PB'], ['PR', 'PR'],
-            ['PE', 'PE'], ['PI', 'PI'], ['RJ', 'RJ'], ['RN', 'RN'],
-            ['RS', 'RS'], ['RO', 'RO'], ['RR', 'RR'], ['SC', 'SC'],
-            ['SP', 'SP'], ['SE', 'SE'], ['TO', 'TO']
-          ]), {}, { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true } %>
+          <%= f.select :customer_state, options_for_select(['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO']), {}, { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" } %>
         </div>
 
         <!-- Customer City Name -->
