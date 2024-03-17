@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class BoletosController < ApplicationController
   before_action :set_kobana_service
 
@@ -9,7 +7,7 @@ class BoletosController < ApplicationController
 
   def create
     response = @kobana_service.create_boleto(boleto_params)
-    @boleto = response 
+    @boleto = response
     handle_create_response(response)
   end
 

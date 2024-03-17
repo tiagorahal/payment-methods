@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 require 'webmock/rspec'
 
@@ -170,7 +168,7 @@ RSpec.describe KobanaService do
     before do
       stub_request(:put, "#{base_url}/#{boleto_id}/cancel")
         .with(
-          body: { cancellation_reason: cancellation_reason }.to_json,
+          body: { cancellation_reason: }.to_json,
           headers: {
             'Authorization' => "Bearer #{token}",
             'Content-Type' => 'application/json',
