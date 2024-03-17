@@ -76,6 +76,6 @@ We welcome contributions to this project! If you have suggestions, enhancements,
 
 ## License
 
-This project is licensed under the [GNU GENERAL PUBLIC LICENSE](LICENSE).
+This project is licensed under the [GNU-3](LICENSE).
 
 ---
