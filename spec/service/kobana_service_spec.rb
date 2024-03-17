@@ -157,4 +157,34 @@ RSpec.describe KobanaService do
       expect(response['status']).to eq('created')
     end
   end
+
+  describe '#cancel_boleto' do
+    let(:base_url) { "https://api-sandbox.kobana.com.br/v1/bank_billets" }
+    let(:token) { "yvjdS4XepSEM5Sen-I63oBAW6Dq75XIZR0Uv0A244cY" }
+    let(:boleto_id) { 635399 }
+    let(:cancellation_reason) { 3 }
+    let(:stubbed_response) { { 'id' => boleto_id, 'status' => 'cancelled' } }
+
+    before do
+      stub_request(:put, "#{base_url}/#{boleto_id}/cancel")
+        .with(
+          body: { cancellation_reason: cancellation_reason }.to_json,
+          headers: {
+            'Authorization' => "Bearer #{token}",
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json'
+          }
+        )
+        .to_return(body: stubbed_response.to_json, status: 200)
+    end
+
+    it 'sends the correct data to cancel the boleto and processes the response' do
+      service = KobanaService.new
+      response = service.cancel_boleto(boleto_id, cancellation_reason)
+
+      expect(response).to be_a(Hash)
+      expect(response['id']).to eq(boleto_id)
+      expect(response['status']).to eq('cancelled')
+    end
+  end
 end
