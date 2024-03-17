@@ -29,7 +29,7 @@ class KobanaService
     uri = URI("#{BASE_URL}/#{id}")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-  
+
     request = Net::HTTP::Put.new(uri)
     request['Authorization'] = "Bearer #{@token}"
     request['Content-Type'] = 'application/json'
@@ -37,14 +37,14 @@ class KobanaService
     request['User-Agent'] = user_agent
     request['X-Idempotency-Key'] = idempotency_key
     request.body = params.to_json
-  
+
     Rails.logger.info("Request URI: #{uri}")
     Rails.logger.info("Request Body: #{request.body}")
-  
+
     response = http.request(request)
-  
+
     Rails.logger.info("Response Body: #{response.body}")
-  
+
     JSON.parse(response.body)
   rescue JSON::ParserError => e
     Rails.logger.error("Failed to parse JSON: #{e.message}")
