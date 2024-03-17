@@ -34,13 +34,13 @@
                   <td class="px-6 py-4 whitespace-nowrap"><%= boleto['paid_at'] || 'N/A' %></td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <% if boleto['status'].downcase != 'canceled' %>
-                      <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded', data: { turbo_frame: 'boleto-edit', remote: true } %>
-                      <button data-boleto-id="<%= boleto['id'] %>" class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
+                      <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded', data: { turbo_frame: 'boleto-edit', remote: true } %>
+                      <button data-boleto-id="<%= boleto['id'] %>" class="delete-btn inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
                         Delete
                       </button>
                     <% else %>
-                      <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded pointer-events-none opacity-50 cursor-not-allowed', data: { turbo_frame: 'boleto-edit', remote: true } %>
-                      <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2 pointer-events-none opacity-50 cursor-not-allowed" disabled>
+                      <%= link_to 'Edit', edit_boleto_path(boleto['id']), class: 'inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded pointer-events-none opacity-50 cursor-not-allowed', data: { turbo_frame: 'boleto-edit', remote: true } %>
+                      <button class="delete-btn inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2 pointer-events-none opacity-50 cursor-not-allowed" disabled>
                         Delete
                       </button>
                     <% end %>
@@ -69,9 +69,13 @@
             <div class="mt-2">
               <p class="text-sm text-gray-500">Select the cancellation reason:</p>
               <%= form_with url: cancel_boleto_path(0), method: :put, id: "cancelBoletoForm" do |form| %>
-                <%= select_tag :cancellation_reason, options_for_select([['Outro', 1], ['Fraude', 2], ['Óbito', 3], ['Erro operacional', 4], ['Quitação paga', 5]]), class: "rounded-md" %>
+                <div class="mb-3"> <!-- Dropdown wrapper -->
+                  <%= select_tag :cancellation_reason, options_for_select([['Outro', 1], ['Fraude', 2], ['Óbito', 3], ['Erro operacional', 4], ['Quitação paga', 5]]), class: "rounded-md block w-full" %>
+                </div>
                 <%= hidden_field_tag :id, nil, id: "boletoId" %>
-                <%= submit_tag 'Cancel Boleto', class: 'bg-red-600 text-white font-bold py-2 px-4 rounded mt-3 cursor-pointer' %>
+                <div class="text-left"> <!-- Button wrapper -->
+                  <%= submit_tag 'Cancel Boleto', class: 'bg-red-600 text-white font-bold py-2 px-4 rounded cursor-pointer' %>
+                </div>
               <% end %>
             </div>
           </div>
