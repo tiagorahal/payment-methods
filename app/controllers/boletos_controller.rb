@@ -9,7 +9,7 @@ class BoletosController < ApplicationController
 
   def create
     response = @kobana_service.create_boleto(boleto_params)
-    @boleto = response # Assuming response contains boleto data
+    @boleto = response 
     handle_create_response(response)
   end
 
