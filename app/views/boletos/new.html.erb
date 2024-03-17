@@ -32,13 +32,21 @@
         <!-- Customer State -->
         <div>
           <%= f.label :customer_state, "Customer State", class: "block font-medium text-sm text-gray-700" %>
-          <%= f.text_field :customer_state, maxlength: 2, placeholder: "SP", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+          <%= f.select :customer_state, options_for_select([
+            ['AC', 'AC'], ['AL', 'AL'], ['AP', 'AP'], ['AM', 'AM'],
+            ['BA', 'BA'], ['CE', 'CE'], ['DF', 'DF'], ['ES', 'ES'],
+            ['GO', 'GO'], ['MA', 'MA'], ['MT', 'MT'], ['MS', 'MS'],
+            ['MG', 'MG'], ['PA', 'PA'], ['PB', 'PB'], ['PR', 'PR'],
+            ['PE', 'PE'], ['PI', 'PI'], ['RJ', 'RJ'], ['RN', 'RN'],
+            ['RS', 'RS'], ['RO', 'RO'], ['RR', 'RR'], ['SC', 'SC'],
+            ['SP', 'SP'], ['SE', 'SE'], ['TO', 'TO']
+          ]), {}, { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true } %>
         </div>
 
         <!-- Customer City Name -->
         <div>
           <%= f.label :customer_city_name, "Customer City Name", class: "block font-medium text-sm text-gray-700" %>
-          <%= f.text_field :customer_city_name, maxlength: 60, placeholder: "City Name", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required: true %>
+          <%= f.text_field :customer_city_name, id: "boleto_customer_city_name", maxlength: 60, placeholder: "City Name", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
         </div>
 
         <!-- Customer Zipcode -->
@@ -68,3 +76,33 @@
     </div>
   </div>
 <% end %>
+
+<script>
+  let autocomplete;
+
+  function initAutocomplete() {
+    const customerCityNameField = document.querySelector("#boleto_customer_city_name");
+
+    // Initialize the Google Places Autocomplete with restrictions to Latin American countries
+    autocomplete = new google.maps.places.Autocomplete(customerCityNameField, {
+      componentRestrictions: { country: ["ar", "bo", "br", "cl", "co", "cr", "cu", "do", "ec", "sv", "gt", "gy", "hn", "ht", "jm", "mx", "ni", "pa", "py", "pe", "pr", "sr", "tt", "uy", "ve", "bz", "bs", "bb"] },
+      fields: ["address_components"],
+      types: ["(cities)"],
+    });
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      let cityName = "";
+      for (const component of place.address_components) {
+        if (component.types.includes("locality")) {
+          cityName = component.long_name;
+          break;
+        }
+      }
+      customerCityNameField.value = cityName;
+    });
+  }
+
+  window.initAutocomplete = initAutocomplete;
+</script>
+
