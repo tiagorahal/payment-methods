@@ -48,22 +48,6 @@ class BoletosController < ApplicationController
     redirect_to boletos_url, alert: 'An unexpected error occurred.'
   end
 
-  # def destroy
-  #   kobana_service = KobanaService.new
-  #   cancellation_reason = params[:cancellation_reason]
-  #   response = kobana_service.cancel_boleto(params[:id], cancellation_reason)
-  
-  #   respond_to do |format|
-  #     if response['status'] == 'success'
-  #       format.html { redirect_to boletos_url, notice: 'Boleto was successfully cancelled.' }
-  #       format.json { head :no_content }
-  #     else
-  #       format.html { redirect_to boletos_url, alert: 'Failed to cancel boleto.' }
-  #       format.json { render json: response, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end  
-
   def cancel
     kobana_service = KobanaService.new
     cancellation_reason = params[:cancellation_reason]
